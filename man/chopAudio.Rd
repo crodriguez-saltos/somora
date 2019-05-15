@@ -4,12 +4,14 @@
 \alias{chopAudio}
 \title{Chop audio file into several segments}
 \usage{
-chopAudio(file, timethrs, plot = F, saveWav = T, ...)
+chopAudio(file, timethrs, mindur = 0.2, plot = F, saveWav = T, ...)
 }
 \arguments{
 \item{file}{Wave file address.}
 
 \item{timethrs}{The time constant used to segment the audio.}
+
+\item{mindur}{Minimum duration for segment to be considered valid.}
 
 \item{...}{Arguments passed to seewave::timer.}
 }
@@ -17,7 +19,7 @@ chopAudio(file, timethrs, plot = F, saveWav = T, ...)
 Chop audio file into several segments
 }
 \details{
-Chops an audio file into several segments defined by a time 
+Chops an audio file into several segments defined by a time
 constant.
 
 The script uses the seewave::timer function to ensure that the segment
