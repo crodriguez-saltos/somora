@@ -4,12 +4,13 @@
 \alias{SAPfeatures}
 \title{Extract spectral features}
 \usage{
-SAPfeatures(wave, fmin = 0, fmax = NULL, wl, ovlp)
+SAPfeatures(wave, fmin = 0, fmax = NULL, wl, ovlp, threshold = 5,
+  segment = T, plotsegments = F)
 }
 \arguments{
-\item{fmin}{Minimum frequency at which to analyze sound.}
+\item{fmin}{Minimum frequency (in Hz) from which to analyze sound.}
 
-\item{fmax}{Maximum frequency at which to analyze sound.}
+\item{fmax}{Maximum frequency (in Hz) up to which to analyze sound.}
 
 \item{wl}{Window size for the analysis.}
 
@@ -20,5 +21,10 @@ SAPfeatures(wave, fmin = 0, fmax = NULL, wl, ovlp)
 \description{
 The features that are extracted are similar or equivalent to those
 used in Sound Analysis Pro 2011 for the calculation of similarity indexes.
-When possible, functions from `seewave` were using.
+When possible, functions from `seewave` were used. The calculation of the
+pitch is not yet similar to that in SAP.
+}
+\details{
+The output also includes dominant frequency, which is not generally used
+in SAP.
 }

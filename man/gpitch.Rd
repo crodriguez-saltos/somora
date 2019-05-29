@@ -5,9 +5,8 @@
 \title{Goodness of pitch}
 \usage{
 gpitch(wave, f, wl = 512, ovlp = 0, fmax = f/2, threshold = NULL,
-  at = NULL, from = NULL, to = NULL, plot = TRUE,
-  xlab = "Time (s)", ylab = "Frequency (kHz)", ylim = c(0, f/2000),
-  pb = FALSE, ...)
+  at = NULL, from = NULL, to = NULL, plot = TRUE, xlab = "Time (s)",
+  ylab = "Frequency (kHz)", ylim = c(0, f/2000), pb = FALSE, ...)
 }
 \description{
 This function is based on `seewave::fund()`. Goodness of pitch is a measured introduced by Sound Analysis Pro 2011.
