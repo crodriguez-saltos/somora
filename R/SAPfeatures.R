@@ -16,7 +16,7 @@
 #' @export
 
 SAPfeatures <- function(wave, fmin = 0, fmax = NULL, wl, ovlp, threshold= 5,
-                        segment= T, plotsegments= F){
+                        segment= T, plotsegments= F, export_spectro= F){
   if (is.null(fmax)){
     fmax <- wave@samp.rate / 2
   }
@@ -74,5 +74,9 @@ SAPfeatures <- function(wave, fmin = 0, fmax = NULL, wl, ovlp, threshold= 5,
     features[!signal,] <- NA
   }
 
-  return(features)
+  if (export_spectro){
+    return(list(spectro= spectro), features= features)
+  }else{
+    return(features)
+  }
 }
