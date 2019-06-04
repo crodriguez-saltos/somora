@@ -27,13 +27,13 @@ SAPfeatures <- function(wave, fmin = 0, fmax = NULL, wl, ovlp, threshold= 5,
   )
 
   # STFT
-  spectro <- seewave::spectro(
+  spectro.full <- seewave::spectro(
     wave = wave, wl = wl, ovlp = ovlp, plot= F, dB= NULL
-  )$amp
-  spec <- round(rowSums(spectro),2)
+  )
+  spec <- round(rowSums(spectro.full$amp),2)
   lowest <- which(spec > 0)[1]
   top <- length(spec) - which(rev(spec) > 0)[1]
-  spectro <- spectro[lowest:top,]
+  spectro <- spectro.full$amp[lowest:top,]
 
   # Frequency modulation
   df <- seewave::dfreq(wave, wl= wl, ovlp = ovlp, plot= F,
@@ -73,9 +73,12 @@ SAPfeatures <- function(wave, fmin = 0, fmax = NULL, wl, ovlp, threshold= 5,
   if (segment){
     features[!signal,] <- NA
   }
+  features$signal <- signal
+
+  features$time= spectro.full$time
 
   if (export_spectro){
-    return(list(spectro= spectro), features= features)
+    return(list(spectro= spectro, features= features))
   }else{
     return(features)
   }
