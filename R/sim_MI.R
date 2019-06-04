@@ -1,3 +1,5 @@
+#'@export
+
 sim_MI <- function(spectro1, spectro2, type= "emp", ...){
   mi <- matrix(data = NA, nrow = ncol(spectro1), ncol = ncol(spectro2))
   h1 <- mi

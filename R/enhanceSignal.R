@@ -1,3 +1,5 @@
+#'@export
+
 enhanceSignal <- function(sound, sound2= NULL, type= "single",
                           PSD= "normal", tms= NULL, ...){
   if (!is.null(sound2)){

@@ -1,3 +1,5 @@
+#'@export
+
 plot_MI <- function(mi, s1, s2, type= "normal", thrs= NULL){
   if (!(is.null(thrs))){
     mi <- mi > thrs
