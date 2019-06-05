@@ -5,22 +5,32 @@ sim_MI <- function(spectro1, spectro2, type= "emp", ...){
   h1 <- mi
   h2 <- mi
   nmi <- mi
-  for (i in 1:ncol(spectro1)){
-    for (j in 1:ncol(spectro2)){
-      if (type == "symba"){
+  if (type == "symba"){
+    for (i in 1:ncol(spectro1)){
+      for (j in 1:ncol(spectro2)){
         pixel <- symba(x = spectro1[,i], y = spectro2[,j], plot = F)
         mi[i,j] <- pixel$I
         h1[i,j] <- pixel$h1
         h2[i,j] <- pixel$h2
         nmi[i,j] <- pixel$I / pixel$h1
-      }else if (type == "emp"){
-        s1 <- infotheo::discretize(spectro1[,i], ...)
-        s2 <- infotheo::discretize(spectro2[,j], ...)
-        h1[i,j] <- infotheo::entropy(s1)
-        h2[i,j] <- infotheo::entropy(s2)
-        nmi[i,j] <- infotheo::mutinformation(s1, s2) / h1[i,j]
       }
     }
+  }else if (type == "emp"){
+    h1 <- apply(X = spectro1, 2, infotheo::entropy)
+    h2 <- apply(X = spectro2, 2, infotheo::entropy)
+    ij <- expand.grid(1:ncol(spectro1), 1:ncol(spectro2))
+    mi <- mapply(FUN = function(x, y) {
+      infotheo::mutinformation(x, y)
+    },
+    x = as.data.frame(spectro1)[ij$Var1],
+    y = as.data.frame(spectro2)[ij$Var2]
+    )
+    mi <- matrix(mi, nrow= ncol(spectro1))
+
+    nmi <- mapply(FUN = function(x,y) x/y,
+                  x= as.data.frame(t(mi)), y= h1)
+    nmi <- t(nmi)
+
   }
   return(list(
     mi= mi,

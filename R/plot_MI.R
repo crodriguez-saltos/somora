@@ -19,11 +19,11 @@ plot_MI <- function(mi, s1, s2, type= "normal", thrs= NULL){
   par(mar = c(2, 2, 0, 0))
   image(t(mi[nrow(mi):1,ncol(mi):1]), col= topo.colors(10), axes= F)
 
-  spectro_mat1 <- spectro(s2, plot= F)
+  spectro_mat1 <- spectro(s2, plot= F, wl= 2048, ovlp= 90)
   spectro_mat1.limit <- spectro_mat1$freq < 8 & spectro_mat1$freq > 0.8
   spectro_mat1 <- spectro_mat1$amp[spectro_mat1.limit,]
 
-  spectro_mat2 <- spectro(s1, plot= F)
+  spectro_mat2 <- spectro(s1, plot= F, wl= 2048, ovlp= 90)
   spectro_mat2.limit <- spectro_mat2$freq < 8& spectro_mat2$freq > 0.8
   spectro_mat2 <- spectro_mat2$amp[spectro_mat2.limit,]
 
