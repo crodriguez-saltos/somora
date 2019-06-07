@@ -4,7 +4,7 @@ sim_MI <- function(spectro1, spectro2, type= "emp", ...){
   mi <- matrix(data = NA, nrow = ncol(spectro1), ncol = ncol(spectro2))
   h1 <- mi
   h2 <- mi
-  nmi <- mi
+  nmi <- rep(NaN, ncol(spectro1) * ncol(spectro2))
   if (type == "symba"){
     for (i in 1:ncol(spectro1)){
       for (j in 1:ncol(spectro2)){
@@ -17,8 +17,16 @@ sim_MI <- function(spectro1, spectro2, type= "emp", ...){
     }
   }else if (type == "emp"){
     h1 <- apply(X = spectro1, 2, infotheo::entropy)
-    h2 <- apply(X = spectro2, 2, infotheo::entropy)
     ij <- expand.grid(1:ncol(spectro1), 1:ncol(spectro2))
+    #nonzeros <- which(h1 > 0)
+    #nonzeros <- is.element(ij$Var1, nonzeros)
+
+    #for (i in which(nonzeros)){
+     # nmi[i] <- infotheo::mutinformation(
+      #  spectro1[,ij$Var1[i]], spectro2[,ij$Var2[i]]
+      #)
+    #}
+
     mi <- mapply(FUN = function(x, y) {
       infotheo::mutinformation(x, y)
     },
@@ -33,9 +41,9 @@ sim_MI <- function(spectro1, spectro2, type= "emp", ...){
 
   }
   return(list(
-    mi= mi,
+    #mi= mi,
     h1= h1,
-    h2= h2,
+    #h2= h2,
     nmi= nmi
   ))
 }
