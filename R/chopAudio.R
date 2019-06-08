@@ -92,7 +92,6 @@ chopAudio <- function(file, timethrs, mindur= 0.2, plot= F, saveWav= T, ...){
     )
 
     # Extract segments----
-    source("./extractMotifs.R")
     extractMotifs(label_file)
   }
 }

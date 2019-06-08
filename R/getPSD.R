@@ -11,11 +11,11 @@ getPSD <- function(sound, dB= NULL, wl= 512, plot= F,
                      dB = dB, PSD = T, ...)[,2], 2)
     })
   }else if (type == "normal"){
-    PSD <- spectro(wave = sound, dB = NULL, wl= wl, plot= F, ...)$amp
-    PSD <- round(PSD ^ 2, 2)
+    PSD <- spectro(wave = sound, dB = NULL, wl= wl, plot= F, ...)
+    PSD$amp <- round(PSD$amp ^ 2, 2)
   }else if (type == "none"){
-    PSD <- spectro(wave = sound, dB = NULL, wl= wl, plot= F, ...)$amp
-    PSD <- round(PSD, 2)
+    PSD <- spectro(wave = sound, dB = NULL, wl= wl, plot= F, ...)
+    PSD$amp <- round(PSD$amp, 2)
   }
   return(PSD)
 }
