@@ -8,7 +8,7 @@ extractMotifs <- function(x, outdir= ".", label= "m"){
   head(labels)
 
   # Create output directory
-  dir_output <- file.path(outdir, "extracted-motifs")
+  dir_output <- file.path(outdir)
 
   if (!dir.create(dir_output)){
     dir.create(path = dir_output, recursive = T)

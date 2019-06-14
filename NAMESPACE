@@ -2,6 +2,7 @@
 
 export(SAPfeatures)
 export(chopAudio)
+export(discretize_spectra)
 export(enhanceSignal)
 export(getPSD)
 export(gpitch)

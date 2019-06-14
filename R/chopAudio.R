@@ -1,10 +1,14 @@
 #' Chop audio file into several segments
 #'
 #' @keywords audio,segmentation
-#' @param file Wave file address.
+#' @param wave Wave file object
+#' @param file Wave file address
+#' @param prefix Prefix for audio output. This argument is required if file is
+#' not given.
 #' @param timethrs The time constant used to segment the audio.
 #' @param mindur Minimum duration for segment to be considered valid.
 #' @param ... Arguments passed to seewave::timer.
+#' @param outdir Directory where to save extracted segments.
 #'
 #' @details Chops an audio file into several segments defined by a time
 #' constant.
@@ -14,9 +18,18 @@
 #'
 #' @export
 
-chopAudio <- function(file, timethrs, mindur= 0.2, plot= F, saveWav= T, ...){
+chopAudio <- function(wave= NULL, file= NULL, prefix= NULL, timethrs, mindur= 0.01, plot= F,
+                      saveWav= T, outdir, ...){
   # Detect sound events----
-  sound <- tuneR::readWave(file)
+  if (is.null(wave)){
+    sound <- tuneR::readWave(file)
+    prefix <- sub(pattern = ".wav", replacement = "", x = file)
+  }else{
+    sound <- wave
+    if (is.null(prefix)){
+      stop("Prefix for audio segments must be supplied by the user.")
+    }
+  }
 
   # Add silence at beginning and end----
   # This helps with detecting signals
@@ -70,7 +83,7 @@ chopAudio <- function(file, timethrs, mindur= 0.2, plot= F, saveWav= T, ...){
 
   # Plot segments----
   if (plot) {
-    print(paste("Plotting audio events (red) and segments(green) in", file))
+    print(paste("Plotting audio events (red) and segments(green) in", prefix))
     seewave::timer(wave = sound, plot= T, ...)
     segments(x0= segments$start, y0= 1.1, x1= segments$end, y1= 1.1,
              col= "green", lwd= 2)
@@ -82,7 +95,7 @@ chopAudio <- function(file, timethrs, mindur= 0.2, plot= F, saveWav= T, ...){
 
   # Write txt in the same format as that of Audacity label track exports----
   if (saveWav){
-    label_file <- sub(pattern = ".wav", replacement = "_motifs.txt", x = file)
+    label_file <- paste0(prefix, "_motifs.txt")
     segments$start <- segments$start - silence_dur
     segments$end <- segments$end - silence_dur
     write.table(
@@ -92,6 +105,9 @@ chopAudio <- function(file, timethrs, mindur= 0.2, plot= F, saveWav= T, ...){
     )
 
     # Extract segments----
-    extractMotifs(label_file, outdir= dirname(label_file))
+    if (!dir.exists(outdir)){
+      dir.create(outdir)
+    }
+    extractMotifs(label_file, outdir= outdir)
   }
 }
