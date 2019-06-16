@@ -78,9 +78,6 @@ chopAudio <- function(wave= NULL, file= NULL, prefix= NULL, timethrs, mindur= 0.
       return(y)
     })
 
-  # Filter segments by duration----
-  segments <- segments[segments$duration >= mindur,]
-
   # Plot segments----
   if (plot) {
     print(paste("Plotting audio events (red) and segments(green) in", prefix))
@@ -97,6 +94,13 @@ chopAudio <- function(wave= NULL, file= NULL, prefix= NULL, timethrs, mindur= 0.
   if (saveWav){
     label_file <- paste0(prefix, "_motifs.txt")
     segments$start <- segments$start - silence_dur
+
+    # After the above step, some timestamps end up being negative,
+    # maybe due to rounding errors or to seewave::timer() moving slightly the
+    # timestamp to buffer the sound. The negative numbers are very small, and
+    # they can just be converted to zero to prevent errors.
+    segments$start[segments$start < 0] <- 0
+
     segments$end <- segments$end - silence_dur
     write.table(
       x = segments[,!(colnames(segments) == "segment")],
