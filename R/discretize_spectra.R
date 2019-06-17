@@ -18,7 +18,7 @@ discretize_spectra <- function(
     wave = sound,
     dB = NULL, wl= wl, ovlp= ovlp,
     plot= F, ...)
-  spectro$amp <- round(spectro$amp, 2)
+  #spectro$amp <- round(spectro$amp, 2)
 
   # Block silences
   signal <- detectEvents(
