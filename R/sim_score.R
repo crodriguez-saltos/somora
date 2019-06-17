@@ -1,10 +1,11 @@
 #' @export
 sim_score <- function(simmat){
-  simmat <- simmat[!apply(X = simmat, MARGIN = 1, FUN = function(x) {
-    all(is.nan(x))}
-  ),]
+  scores <- data.frame(
+    max_s2= apply(simmat, 2, function(x) max(x, na.rm = T)),
+    match_s1= apply(simmat, 2, which.max)
+  )
 
-  maxMI <- apply(simmat, 1, max)
-  sim <- mean(maxMI)
-  return(list(sim= sim, simPerBin= maxMI))
+  scores$match_s1 <- scores$match_s1 / nrow(simmat)
+
+  return(scores)
 }
