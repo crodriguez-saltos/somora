@@ -7,18 +7,18 @@ discretize_spectra <- function(
   bins= 2^16,
   plot= F,
   threshold,
+  fmin= 0.8,
+  fmax= 8,
   ...
 ){
   library(somora)
   # Get spectrogram
-  #spectro <- enhanceSignal(sound, wl= wl, ovlp= ovlp, PSD= "none",
-   #                        fmin= 0.8, fmax= 8)
-
   spectro <- seewave::spectro(
     wave = sound,
-    dB = NULL, wl= wl, ovlp= ovlp,
+    dB = NULL,
+    wl= wl, ovlp= ovlp,
+    flim = c(fmin,fmax),
     plot= F, ...)
-  #spectro$amp <- round(spectro$amp, 2)
 
   # Block silences
   signal <- detectEvents(
