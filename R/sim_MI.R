@@ -102,7 +102,5 @@ sim_MI <- function(s1, s2, type= "infotheo", ...){
           ]
     }
   }
-  return(list(
-    mi= mi
-  ))
+  return(mi)
 }

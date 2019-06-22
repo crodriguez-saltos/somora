@@ -7,5 +7,14 @@ sim_score <- function(simmat){
 
   scores$match_s1 <- scores$match_s1 / nrow(simmat)
 
+  # The following code needs to be modified:
+  # scores <- sapply(mi.normalized, function(x){
+  #   ind <- apply(x, 2, function(y) !all(is.na(y)))
+  #   sumscores <- sum(apply(x[,ind], 2, function(y) max(y, na.rm= T)))
+  #   n <- length(which(ind))
+  #   sumscores/n
+  # })
   return(scores)
 }
+
+
