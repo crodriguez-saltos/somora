@@ -1,5 +1,5 @@
 extractMotifs <- function(x, outdir= ".", label= "m",
-                          buffersilence= NULL){
+                          buffersilence= NULL, silenceparams= NULL){
   # Import labels and load info into data frames
   labels <- read.table(x, sep= "\t", stringsAsFactors = F)
 
@@ -48,6 +48,16 @@ extractMotifs <- function(x, outdir= ".", label= "m",
       ))
       file.rename(file.path(dir_output, "transition.wav"),
                   file.path(dir_output, output))
+    }
+
+    if (!is.null(silenceparams)){
+      transition <- tuneR::readWave(file.path(dir_output, output))
+      transition <- silencebuffer(
+        wave= transition,
+        d= silenceparams[1],
+        msmooth = c(silenceparams[2], silenceparams[3])
+      )
+      writeWave(transition, file.path(dir_output, output))
     }
   }
 }
