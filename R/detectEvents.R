@@ -10,7 +10,7 @@ detectEvents <- function(wave= NULL, file= NULL,
   }
 
   # Find signal/noise events
-  segments <- seewave::timer(wave = sound, plot= T, dmin= mindur, ...)
+  segments <- seewave::timer(wave = sound, plot= F, dmin= mindur, ...)
 
   # Extract timestamps----
   timestamps <- data.frame(start= segments$s.start,
