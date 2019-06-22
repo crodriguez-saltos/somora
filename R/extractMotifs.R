@@ -1,4 +1,5 @@
-extractMotifs <- function(x, outdir= ".", label= "m"){
+extractMotifs <- function(x, outdir= ".", label= "m",
+                          buffersilence= NULL){
   # Import labels and load info into data frames
   labels <- read.table(x, sep= "\t", stringsAsFactors = F)
 
@@ -36,5 +37,17 @@ extractMotifs <- function(x, outdir= ".", label= "m"){
       "trim", motifs[i,]$start, duration
     )
     )
+
+    if (!is.null(buffersilence)){
+      system(command= paste(
+        "sox",
+        buffersilence,
+        file.path(dir_output, output),
+        buffersilence,
+        file.path(dir_output, "transition.wav")
+      ))
+      file.rename(file.path(dir_output, "transition.wav"),
+                  file.path(dir_output, output))
+    }
   }
 }

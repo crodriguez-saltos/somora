@@ -7,8 +7,10 @@
 #' not given.
 #' @param timethrs The time constant used to segment the audio.
 #' @param mindur Minimum duration for segment to be considered valid.
-#' @param ... Arguments passed to seewave::timer.
 #' @param outdir Directory where to save extracted segments.
+#' @param buffersilence Name of audio file containing silence that is appended
+#' at the beginning and end of each extracted segment of audio.
+#' @param ... Arguments passed to seewave::timer.
 #'
 #' @details Chops an audio file into several segments defined by a time
 #' constant.
@@ -19,7 +21,7 @@
 #' @export
 
 chopAudio <- function(wave= NULL, file= NULL, prefix= NULL, timethrs, mindur= 0.01, plot= F,
-                      saveWav= T, outdir, ...){
+                      saveWav= T, outdir, buffersilence= NULL, ...){
   # Detect sound events----
   if (is.null(wave)){
     sound <- tuneR::readWave(file)
@@ -112,6 +114,6 @@ chopAudio <- function(wave= NULL, file= NULL, prefix= NULL, timethrs, mindur= 0.
     if (!dir.exists(outdir)){
       dir.create(outdir)
     }
-    extractMotifs(label_file, outdir= outdir)
+    extractMotifs(label_file, outdir= outdir, buffersilence= buffersilence)
   }
 }
