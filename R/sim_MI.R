@@ -1,3 +1,16 @@
+#' Compare two sounds based using mutual information
+#'
+#' @param s1 Discretized spectrogram of sound 1.
+#' @param s2 Discretized spectrogram of sound 2.
+#' @param type Type of estimation of mutual information. See details.
+#' @param ... Additional arguments passed to infotheo::mutinformation.
+#'
+#' @details
+#' The types of estimation of mutual information are:
+#'
+#' symba -  Estimate mutual information using seewave::symba.
+#' infotheo - Estimate mutual information using package infotheo.
+#'
 #'@export
 
 sim_MI <- function(s1, s2, type= "infotheo", ...){
@@ -27,7 +40,7 @@ sim_MI <- function(s1, s2, type= "infotheo", ...){
     # Estimate mutual information on signal
     mi <- infotheo::mutinformation(
       as.data.frame(cbind(s1.filtered, s2.filtered)),
-      # ...
+      ...
     )
 
     # Select comparisons of interest
@@ -102,5 +115,6 @@ sim_MI <- function(s1, s2, type= "infotheo", ...){
           ]
     }
   }
+
   return(mi)
 }

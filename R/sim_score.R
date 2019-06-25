@@ -1,19 +1,10 @@
 #' @export
 sim_score <- function(simmat){
-  scores <- data.frame(
-    max_s2= apply(simmat, 2, function(x) max(x, na.rm = T)),
-    match_s1= apply(simmat, 2, which.max)
-  )
-
-  scores$match_s1 <- scores$match_s1 / nrow(simmat)
-
-  # The following code needs to be modified:
-  # scores <- sapply(mi.normalized, function(x){
-  #   ind <- apply(x, 2, function(y) !all(is.na(y)))
-  #   sumscores <- sum(apply(x[,ind], 2, function(y) max(y, na.rm= T)))
-  #   n <- length(which(ind))
-  #   sumscores/n
-  # })
+  suppressWarnings(scores <- data.frame(
+    song2_rel_pos= 1:ncol(simmat) / ncol(simmat),
+    song1_match= as.numeric(apply(simmat, 2, which.max)) / nrow(simmat),
+    score= apply(simmat, 2, function(x) max(x, na.rm= T))
+  ))
   return(scores)
 }
 
