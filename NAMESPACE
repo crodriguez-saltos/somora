@@ -2,6 +2,7 @@
 
 export(SAPfeatures)
 export(chopAudio)
+export(compareScores)
 export(detectEvents)
 export(discretize_spectra)
 export(enhanceSignal)
