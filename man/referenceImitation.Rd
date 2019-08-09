@@ -4,7 +4,8 @@
 \alias{referenceImitation}
 \title{Evaluate how well a reference song is imitated}
 \usage{
-referenceImitation(pos, score, plot = F, na.rm = F)
+referenceImitation(pos, score, plot = F, na.rm = F, valid = NULL,
+  smooth = F)
 }
 \arguments{
 \item{plot}{Should interpolated scores be plotted?}

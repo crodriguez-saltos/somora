@@ -11,6 +11,7 @@
 
 similarityHeatmap <- function(pos, score, title= NULL, plot= T){
   d <- data.frame(position_in_reference= pos, score= score)
+
   p <- ggplot2::ggplot(
     data= d,
     ggplot2::aes(x = position_in_reference, y= score)
