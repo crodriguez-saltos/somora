@@ -11,7 +11,6 @@ discretize_spectra <- function(
   fmax= 8,
   ...
 ){
-  library(somora)
   # Get spectrogram
   spectro <- seewave::spectro(
     wave = sound,
@@ -21,11 +20,16 @@ discretize_spectra <- function(
     plot= F, ...)
 
   # Block silences
-  signal <- detectEvents(
-    wave= sound,
-    msmooth= c(wl, ovlp),
-    threshold= threshold
-  )
+  if (threshold != 0){
+    signal <- detectEvents(
+      wave= sound,
+      msmooth= c(wl, ovlp),
+      threshold= threshold
+    )
+  }else{
+    signal <- data.frame(start= 0, end= duration(sound))
+  }
+
 
   whichstart <- cut(signal$start, breaks = spectro$time)
   if (signal$start[1] == 0){
