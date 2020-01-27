@@ -12,9 +12,9 @@ referenceImitation <- function(pos, score, plot= F,
                                na.rm= F, valid= NULL, smooth= F){
   # Summary statistic per reference position----
   d <- data.frame(position_in_reference= pos, score= score)
-  scores <- ddply(
+  scores <- plyr::ddply(
     .data = d,
-    .variables = .(position_in_reference),
+    .variables = plyr::.(position_in_reference),
     .fun = function(x){
       max(x[["score"]], na.rm= T)
     })
