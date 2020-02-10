@@ -33,16 +33,22 @@ mi_summary <- function(simdir, output){
   print(paste("Processing", length(levels(score_files$song2)), "pairs"))
   library(plyr)
   library(somora)
+
+  limbodata <- vector()
   sco <- dlply(
     .data = score_files,
     .variables = .(song2), .fun = function(x){
-      compareScores(
-        scof= x$scof,
-        song1flag = "tutor",
-        c1s1 = "father",
-        c2s1 = "neighbor",
-        plotdiff = F
-      )
+      tryCatch({
+        compareScores(
+          scof= x$scof,
+          song1flag = "tutor",
+          c1s1 = "father",
+          c2s1 = "neighbor",
+          plotdiff = F
+        )
+      }, error= function(e){
+        limbodata <- c(limbodata, as.character(x$scoff))
+      })
     }
   )
   sco <- do.call("rbind", sco)
@@ -50,6 +56,15 @@ mi_summary <- function(simdir, output){
 
   # Save data frame
   write.table(x = sco,  file = output)
+  if (length(limbodata) > 0){
+    writeLines(
+      x = limbodata,
+      file= sub(
+        pattern= ".txt",
+        replacement = "_limbo.txt",
+        x = output
+      )
+    )
+  }
   rm(sco)
 }
-
